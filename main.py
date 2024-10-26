@@ -1,7 +1,7 @@
 import pygame
 
 from constants import *
-from solver import solve
+from solver import solve, is_valid
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -10,16 +10,18 @@ FONT = pygame.font.SysFont('arial', 40)
 
 # Initial Sudoku board (0 means empty)
 board = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+    [3, 0, 6, 5, 0, 8, 4, 0, 0],
+    [5, 2, 0, 0, 0, 0, 0, 0, 0],
+    [0, 8, 7, 0, 0, 0, 0, 3, 1],
+    [0, 0, 3, 0, 1, 0, 0, 8, 0],
+    [9, 0, 0, 8, 6, 3, 0, 0, 5],
+    [0, 5, 0, 0, 9, 0, 6, 0, 0],
+    [1, 3, 0, 0, 0, 0, 2, 5, 0],
+    [0, 0, 0, 0, 0, 0, 0, 7, 4],
+    [0, 0, 5, 2, 0, 6, 3, 0, 0]
 ]
+
+selected_cell = None  # to store the selected cell (rows colum)
 
 
 def draw_grid():
@@ -39,8 +41,44 @@ def draw_numbers():
                 screen.blit(value, (j * SQUARE_SIZE + 15, i * SQUARE_SIZE + 10))
 
 
+def draw_selection():
+    if selected_cell:
+        row, col = selected_cell
+        pygame.draw.rect(
+            screen, BLUE,
+            (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE), 3
+        )
+
+
+def handle_click(pos):
+    global selected_cell
+    x, y = pos
+    col, row = x // SQUARE_SIZE, y // SQUARE_SIZE
+    selected_cell = (row, col)  # store the selected cell
+
+
+def handle_input(key):
+    if selected_cell:
+        row, col = selected_cell
+    else:
+        return
+
+    if key in range(pygame.K_1, pygame.K_9 + 1):  # check if is 1-9
+        num = key - pygame.K_0
+        if is_valid(board, num, (row, col)):
+            board[row][col] = num
+
+
+def check_win():
+    if solve(board):
+        print('Winner!')
+    else:
+        print('Better luck next time!')
+
+
 def main():
     # Main game loop.
+    global selected_cell
     running = True
 
     while running:
@@ -48,13 +86,19 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    solve(board)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                handle_click(pygame.mouse.get_pos())
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    check_win()
+                else:
+                    handle_input(event.key)
 
         screen.fill(WHITE)
         draw_grid()
         draw_numbers()
+        draw_selection()
         pygame.display.update()
 
     pygame.quit()

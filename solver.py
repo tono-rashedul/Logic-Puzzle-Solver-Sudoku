@@ -8,7 +8,7 @@ def is_valid(board, num, pos):
     """
     # Check the row
     for i in range(len(board[0])):
-        if board[pos[0]][i] == num and pos[1] != i:
+        if board[pos[0]][i] == num and pos[1] != i:                                  
             return False
 
     # Check the column
