@@ -8,14 +8,14 @@ A Sudoku solver uses backtracking algorithms to fill the grid. It starts by plac
 
 ### Constraint Satisfaction Problems (CSP)
 The CSP solver uses these steps:
-> Assign a value: Start by placing a number in an empty cell.
-> Check constraints: Ensure this number doesn't break any Sudoku rules.
-> Propagate constraints: Update the possible numbers for other cells based on this assignment.
-> Backtrack if needed: If a conflict arises, undo the last step and try a different number.
+> **Assign a value:** Start by placing a number in an empty cell.
+> **Check constraints:** Ensure this number doesn't break any Sudoku rules.
+> **Propagate constraints:** Update the possible numbers for other cells based on this assignment.
+> **Backtrack if needed:** If a conflict arises, undo the last step and try a different number.
 
 
 ### Pseudocode for backtracking
-
+'''
 procedure backtrack(P, c) is
     if reject(P, c) then return
     if accept(P, c) then output(P, c)
@@ -23,7 +23,7 @@ procedure backtrack(P, c) is
     while s ≠ NULL do
         backtrack(P, s)
         s ← next(P, s)
-
+'''
 
 ### Output in Pygame
 
@@ -31,17 +31,13 @@ procedure backtrack(P, c) is
 
 <img src="./assets/sudoku_board_ai.png">
 
+### Output in Gradio(Implement in huggingface) [Gradio](https://huggingface.co/spaces/tono-rashedul/Sudoku-Solver)
 
-
-### Output in Gradio(Implement in huggingface)
-[Gradio](https://huggingface.co/spaces/tono-rashedul/Sudoku-Solver)
-
-<img src="./assets/sudoku_board_ai_gradio.png.jpg">
-
+<img src="./assets/sudoku_board_ai_gradio.png">
 
 
 ## Source
 [CSP](https://www.geeksforgeeks.org/constraint-satisfaction-problems-csp-in-artificial-intelligence/)
 [CSP Problem](https://medium.com/@co.2020.prkude/formulation-of-csp-problem-sudoku-puzzle-7d5e1d547382)
-[Wikipedia](https://en.wikipedia.org/wiki/Sudoku)
-(https://en.wikipedia.org/wiki/Backtracking)
+[Sudoku](https://en.wikipedia.org/wiki/Sudoku)
+[Backtrack](https://en.wikipedia.org/wiki/Backtracking)
