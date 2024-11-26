@@ -9,13 +9,16 @@ A Sudoku solver uses backtracking algorithms to fill the grid. It starts by plac
 ### Constraint Satisfaction Problems (CSP)
 The CSP solver uses these steps:
 > **Assign a value:** Start by placing a number in an empty cell.
+
 > **Check constraints:** Ensure this number doesn't break any Sudoku rules.
+
 > **Propagate constraints:** Update the possible numbers for other cells based on this assignment.
+
 > **Backtrack if needed:** If a conflict arises, undo the last step and try a different number.
 
 
 ### Pseudocode for backtracking
-'''
+```
 procedure backtrack(P, c) is
     if reject(P, c) then return
     if accept(P, c) then output(P, c)
@@ -23,7 +26,7 @@ procedure backtrack(P, c) is
     while s ≠ NULL do
         backtrack(P, s)
         s ← next(P, s)
-'''
+```
 
 ### Output in Pygame
 
